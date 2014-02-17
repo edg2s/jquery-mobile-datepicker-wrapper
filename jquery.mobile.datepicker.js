@@ -31,7 +31,7 @@
 				// [2] = cell title (optional), e.g. $.datepicker.noWeekends
 			'onSelect': function ( text, object ) {
 				setTimeout( function () {
-					if ( !object.settings.inline ) {
+					if ( object.settings.display !== 'inline' ) {
 						$( object.input )
 							.date( 'addMobileStyle' );
 					} else {
@@ -42,7 +42,7 @@
 			}, // Define a callback function when a date is selected
 			'onChangeMonthYear': function ( month, year, object ) {
 				setTimeout( function () {
-					if ( !object.settings.inline ) {
+					if ( object.settings.display !== 'inline' ) {
 						$( object.input )
 							.date( 'addMobileStyle' );
 					} else {
@@ -53,8 +53,13 @@
 			},
 			'beforeShow': function ( element ) {
 				setTimeout( function () {
-					$( element )
-						.data( 'mobileDate' ).addMobileStyle();
+					var date = $( element ).data( 'mobileDate' );
+					date.addMobileStyle();
+					if ( date.options.display === 'popup' ) {
+						date.calendar
+							.css( { 'position': 'relative' } )
+							.popup( 'open' );
+					}
 				} );
 			}, // Define a callback function when the month or year is changed
 			'numberOfMonths': 1, // Number of months to show at a time
@@ -67,27 +72,31 @@
 			'showButtonPanel': false, // True to show button panel, false to not show it
 			'autoSize': false, // True to size the input for the date format, false to leave as is
 			'disabled': false, // The initial disabled state
-			'inline': false
+			'display': 'nearby', // 'inline', 'nearby' or 'popup'
 		},
 		'_create': function () {
 			var calendar, interval,
 				that = this;
-			if ( this.options.inline ) {
+
+			if ( this.options.display === 'inline' ) {
 				this.options.altField = this.element;
 				calendar = $( '<div>' ).datepicker( this.options );
 				this.element.parent().after( calendar );
 			} else {
 				this.element.datepicker( this.options );
 				calendar = this.element.datepicker( 'widget' );
+				if ( this.options.display === 'popup' ) {
+					calendar.popup();
+				}
 			}
 
 			this.calendar = calendar;
 
-			this.baseWidget = ( !this.options.inline ) ? this.element: this.calendar;
+			this.baseWidget = ( this.options.display !== 'inline' ) ? this.element: this.calendar;
 
 			this._on( {
 				'change': function () {
-					if ( this.options.inline ) {
+					if ( this.options.display === 'inline' ) {
 						this.calendar.datepicker( 'setDate', this.element.val() );
 					}
 					this._delay( 'addMobileStyle', 10 );
