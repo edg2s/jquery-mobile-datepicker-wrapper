@@ -73,6 +73,7 @@
 			'autoSize': false, // True to size the input for the date format, false to leave as is
 			'disabled': false, // The initial disabled state
 			'display': 'nearby', // 'inline', 'nearby' or 'popup'
+			'dateFormat': null,
 		},
 		'_create': function () {
 			var calendar, interval,
