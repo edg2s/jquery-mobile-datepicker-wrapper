@@ -87,7 +87,7 @@
 				this.element.datepicker( this.options );
 				calendar = this.element.datepicker( 'widget' );
 				if ( this.options.display === 'popup' ) {
-					calendar.popup();
+					calendar.popup( { 'overlayTheme': 'a' } );
 				}
 			}
 
