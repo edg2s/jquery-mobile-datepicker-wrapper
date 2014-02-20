@@ -76,6 +76,7 @@
 			'autoSize': false, // True to size the input for the date format, false to leave as is
 			'disabled': false, // The initial disabled state
 			'display': 'nearby', // 'inline', 'nearby' or 'popup'
+			'transition': 'pop', // transition to use for popup display
 			'dateFormat': null,
 		},
 		'_create': function () {
@@ -90,7 +91,7 @@
 				this.element.datepicker( this.options );
 				calendar = this.element.datepicker( 'widget' );
 				if ( this.options.display === 'popup' ) {
-					calendar.popup( { 'overlayTheme': 'a' } );
+					calendar.popup( { 'overlayTheme': 'a', 'transition': this.options.transition } );
 				}
 			}
 
