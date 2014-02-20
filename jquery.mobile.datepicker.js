@@ -34,6 +34,9 @@
 					if ( object.settings.display !== 'inline' ) {
 						$( object.input )
 							.date( 'addMobileStyle' );
+						if ( object.settings.display === 'popup' ) {
+							object.input.datepicker( 'widget' ).popup( 'close' );
+						}
 					} else {
 						$( object.settings.altField )
 							.date( 'addMobileStyle' );
